@@ -45,6 +45,9 @@ import georegression.struct.shapes.Quadrilateral_F64;
  * different trackers.  The user selects an object by clicking and dragging until the drawn
  * rectangle fills the object.  To select a new object click reset.
  */
+
+// TODO Use Yahoo Weather API
+
 public class ObjectTrackerActivity extends VideoDisplayActivity
         implements AdapterView.OnItemSelectedListener, View.OnTouchListener
 {
