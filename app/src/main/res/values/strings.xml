@@ -13,5 +13,6 @@
     </string-array>
 
     <string name="title_activity_object_tracker">ObjectTrackerActivity</string>
+    <string name="title_activity_weather">WeatherActivity</string>
 
 </resources>

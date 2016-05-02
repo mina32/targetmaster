@@ -1,5 +1,6 @@
 package org.boofcv.objecttracking;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -64,6 +65,7 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
     TextView down;
     TextView left;
     TextView right;
+    Button weatherButton;
 
     Quadrilateral_F64 location = new Quadrilateral_F64();
 
@@ -83,6 +85,16 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
         down = (TextView) findViewById(R.id.down_indicator);
         left = (TextView) findViewById(R.id.left_indicator);
         right = (TextView) findViewById(R.id.right_indicator);
+
+        weatherButton = (Button) findViewById(R.id.button_weather);
+        weatherButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ObjectTrackerActivity.this, WeatherActivity.class);
+                startActivity(intent);
+            }
+        });
+
         up.setBackgroundColor(Color.GREEN);
         down.setBackgroundColor(Color.GREEN);
         left.setBackgroundColor(Color.GREEN);

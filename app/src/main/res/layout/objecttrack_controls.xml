@@ -42,6 +42,12 @@
         android:id="@+id/right_indicator"
         android:text="Right"/>
 
+    <Button
+        android:id="@+id/button_weather"
+        android:text="Weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 
 </LinearLayout>
