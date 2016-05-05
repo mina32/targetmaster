@@ -14,5 +14,7 @@
 
     <string name="title_activity_object_tracker">ObjectTrackerActivity</string>
     <string name="title_activity_weather">WeatherActivity</string>
+    <string name="title_activity_save">SaveActivity</string>
+    <string name="title_activity_statistics">StatisticsActivity</string>
 
 </resources>

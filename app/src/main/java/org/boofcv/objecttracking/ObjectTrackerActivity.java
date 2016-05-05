@@ -66,6 +66,7 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
     TextView left;
     TextView right;
     Button weatherButton;
+    Button saveButton;
 
     Quadrilateral_F64 location = new Quadrilateral_F64();
 
@@ -91,6 +92,15 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ObjectTrackerActivity.this, WeatherActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        saveButton = (Button) findViewById(R.id.button_save);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ObjectTrackerActivity.this, SaveActivity.class);
                 startActivity(intent);
             }
         });

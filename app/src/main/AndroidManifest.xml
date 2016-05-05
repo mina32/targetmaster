@@ -3,7 +3,7 @@
     package="org.boofcv.objecttracking">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -36,7 +36,13 @@
         </activity>
         <activity
             android:name=".WeatherActivity"
-            android:label="@string/title_activity_weather"></activity>
+            android:label="@string/title_activity_weather" />
+        <activity
+            android:name=".SaveActivity"
+            android:label="@string/title_activity_save" />
+        <activity
+            android:name=".StatisticsActivity"
+            android:label="@string/title_activity_statistics"></activity>
     </application>
 
 </manifest>
