@@ -55,7 +55,7 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
 
     Point2D_I32 click0 = new Point2D_I32();
     Point2D_I32 click1 = new Point2D_I32();
-
+    //hi
 
     TextView up;
     TextView down;
