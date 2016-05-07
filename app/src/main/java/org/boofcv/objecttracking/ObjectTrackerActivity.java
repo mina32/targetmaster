@@ -158,14 +158,6 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
 
         service.refreshWeather("San Antonio, TX");
 
-        weatherButton = (Button) findViewById(R.id.button_weather);
-        weatherButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ObjectTrackerActivity.this, WeatherActivity.class);
-                startActivity(intent);
-            }
-        });
 
         saveButton = (Button) findViewById(R.id.button_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
