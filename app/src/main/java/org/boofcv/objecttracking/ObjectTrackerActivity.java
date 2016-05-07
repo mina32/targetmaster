@@ -1,7 +1,8 @@
 package org.boofcv.objecttracking;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +24,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.boofcv.objecttracking.data.Channel;
+import org.boofcv.objecttracking.data.Wind;
+import org.boofcv.objecttracking.service.WeatherServiceCallback;
+import org.boofcv.objecttracking.service.YahooWeatherService;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,9 +58,15 @@ import georegression.struct.shapes.Quadrilateral_F64;
  * different trackers.  The user selects an object by clicking and dragging until the drawn
  * rectangle fills the object.  To select a new object click reset.
  */
+
+// TODO Use Yahoo Weather API
+
 public class ObjectTrackerActivity extends VideoDisplayActivity
-        implements AdapterView.OnItemSelectedListener, View.OnTouchListener
+        implements AdapterView.OnItemSelectedListener, View.OnTouchListener, WeatherServiceCallback
 {
+    public static final String TAG = "ObjectTrackerActivity";
+
+
     private  String videopath;
     MediaPlayer mediaPlayer;
 
@@ -66,10 +79,14 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
     Point2D_I32 click1 = new Point2D_I32();
     //hi
 
-    TextView up;
-    TextView down;
-    TextView left;
-    TextView right;
+    Button weatherButton;
+    Button saveButton;
+
+    private YahooWeatherService service;
+    private ProgressDialog dialog;
+
+    TextView windSpeedTextView;
+
 
     Button record;
     Button watch;
@@ -131,6 +148,34 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
                 }*/
             }
         });
+
+        windSpeedTextView = (TextView) findViewById(R.id.txtView_WindSpeed);
+
+        service = new YahooWeatherService(this);
+        dialog = new ProgressDialog(this);
+        dialog. setMessage("Loading...");
+        dialog.show();
+
+        service.refreshWeather("San Antonio, TX");
+
+        weatherButton = (Button) findViewById(R.id.button_weather);
+        weatherButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ObjectTrackerActivity.this, WeatherActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        saveButton = (Button) findViewById(R.id.button_save);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ObjectTrackerActivity.this, SaveActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
        // spinnerView = (Spinner)controls.findViewById(R.id.spinner_algs);
@@ -207,6 +252,30 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
 
     public void resetPressed( View view ) {
         mode = 0;
+    }
+
+    @Override
+    public void ServiceSuccess(Channel channel) {
+
+        dialog.hide();
+
+        Wind wind = channel.getWind();
+
+//        locationTextView.setText("Location: " + service.getLocation());
+        windSpeedTextView.setText("Wind speed: " + wind.getSpeed() + " " + channel.getUnits().getSpeed());
+
+        Log.d(TAG, "Location: " + service.getLocation());
+        Log.d(TAG, "Wind speed: " + wind.getSpeed() + " " + channel.getUnits().getSpeed());
+        Log.d(TAG, "Wind direction: " + wind.getDirection());
+
+    }
+
+    @Override
+    public void ServiceFailure(Exception exception) {
+
+        dialog.hide();
+        Toast.makeText(this,exception.getMessage(),Toast.LENGTH_LONG).show();
+
     }
 
     protected class TrackingProcessing<T extends ImageBase> extends VideoImageProcessing<MultiSpectral<ImageUInt8>>
