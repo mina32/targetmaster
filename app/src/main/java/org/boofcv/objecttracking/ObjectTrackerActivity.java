@@ -1,5 +1,6 @@
 package org.boofcv.objecttracking;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -62,6 +63,8 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
     TextView left;
     TextView right;
 
+    Button record;
+
     Quadrilateral_F64 location = new Quadrilateral_F64();
 
     @Override
@@ -84,6 +87,15 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
         down.setBackgroundColor(Color.GREEN);
         left.setBackgroundColor(Color.GREEN);
         right.setBackgroundColor(Color.GREEN);
+
+        record = (Button) findViewById(R.id.record);
+        record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ObjectTrackerActivity.this,VideoActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
        // spinnerView = (Spinner)controls.findViewById(R.id.spinner_algs);
