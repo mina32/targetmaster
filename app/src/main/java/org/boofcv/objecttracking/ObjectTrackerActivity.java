@@ -1,5 +1,6 @@
 package org.boofcv.objecttracking;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.hardware.Camera;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -49,6 +54,9 @@ import georegression.struct.shapes.Quadrilateral_F64;
 public class ObjectTrackerActivity extends VideoDisplayActivity
         implements AdapterView.OnItemSelectedListener, View.OnTouchListener
 {
+    private  String videopath;
+    MediaPlayer mediaPlayer;
+
     int mode = 0;
 
     // size of the minimum square which the user can select
@@ -64,6 +72,7 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
     TextView right;
 
     Button record;
+    Button watch;
 
     Quadrilateral_F64 location = new Quadrilateral_F64();
 
@@ -79,21 +88,47 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
 
         FrameLayout iv = getViewPreview();
         iv.setOnTouchListener(this);
-        up = (TextView) findViewById(R.id.up_indicator);
-        down = (TextView) findViewById(R.id.down_indicator);
-        left = (TextView) findViewById(R.id.left_indicator);
-        right = (TextView) findViewById(R.id.right_indicator);
-        up.setBackgroundColor(Color.GREEN);
-        down.setBackgroundColor(Color.GREEN);
-        left.setBackgroundColor(Color.GREEN);
-        right.setBackgroundColor(Color.GREEN);
+//        up = (TextView) findViewById(R.id.up_indicator);
+//        down = (TextView) findViewById(R.id.down_indicator);
+//        left = (TextView) findViewById(R.id.left_indicator);
+//        right = (TextView) findViewById(R.id.right_indicator);
+//        up.setBackgroundColor(Color.GREEN);
+//        down.setBackgroundColor(Color.GREEN);
+//        left.setBackgroundColor(Color.GREEN);
+//        right.setBackgroundColor(Color.GREEN);
 
         record = (Button) findViewById(R.id.record);
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ObjectTrackerActivity.this,VideoActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+        watch = (Button) findViewById(R.id.watch);
+        watch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.sound_file_1);
+
+                Intent viewIntent = new Intent(Intent.ACTION_VIEW);
+                File file = new File(videopath); // TODO Check if videopath is correct first
+                viewIntent.setDataAndType(Uri.fromFile(file), "video/*");
+                startActivity(Intent.createChooser(viewIntent, null));
+
+/*                try {
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setDataSource(videopath);
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                    if (mediaPlayer != null) {
+                        mediaPlayer.release();
+                        mediaPlayer = null;
+                    }
+                }*/
             }
         });
 
@@ -392,6 +427,19 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
         p.close();
         return p;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                videopath =data.getStringExtra("result");
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
 
 }
 

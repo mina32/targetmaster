@@ -19,34 +19,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:layout_width ="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/left_indicator"
-        android:text="Left"
-       />
+    <Button
+        android:text="watch video"
+        android:id="@+id/watch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--<TextView-->
+        <!--android:layout_width ="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/left_indicator"-->
+        <!--android:text="Left"-->
+       <!--/>-->
 
 
-    <TextView
-        android:layout_width ="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/up_indicator"
-        android:text="Up"
-        />
+    <!--<TextView-->
+        <!--android:layout_width ="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/up_indicator"-->
+        <!--android:text="Up"-->
+        <!--/>-->
 
-    <TextView
-        android:layout_width ="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/down_indicator"
-        android:text="Down"/>
+    <!--<TextView-->
+        <!--android:layout_width ="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/down_indicator"-->
+        <!--android:text="Down"/>-->
 
 
 
-    <TextView
-        android:layout_width ="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/right_indicator"
-        android:text="Right"/>
+    <!--<TextView-->
+        <!--android:layout_width ="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/right_indicator"-->
+        <!--android:text="Right"/>-->
 
 
 

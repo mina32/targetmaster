@@ -1,6 +1,7 @@
 package org.boofcv.objecttracking;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
@@ -21,6 +22,8 @@ import java.io.IOException;
 
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
@@ -36,6 +39,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 public class VideoActivity extends Activity{
+
+    private String videopath;
 
     private Camera myCamera;
     private MyCameraSurfaceView myCameraSurfaceView;
@@ -82,6 +87,9 @@ public class VideoActivity extends Activity{
                 releaseMediaRecorder(); // release the MediaRecorder object
 
                 //Exit after saved
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result",videopath);
+                setResult(Activity.RESULT_OK,returnIntent);
                 finish();
             }else{
 
@@ -93,6 +101,9 @@ public class VideoActivity extends Activity{
                     Toast.makeText(VideoActivity.this,
                             "Fail in prepareMediaRecorder()!\n - Ended -",
                             Toast.LENGTH_LONG).show();
+
+                    Intent returnIntent = new Intent();
+                    setResult(Activity.RESULT_CANCELED, returnIntent);
                     finish();
                 }
 //
@@ -126,9 +137,14 @@ public class VideoActivity extends Activity{
 
         mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
 
-        mediaRecorder.setOutputFile("/sdcard/myvideo.mp4");
-        mediaRecorder.setMaxDuration(60000); // Set max duration 60 sec.
-        mediaRecorder.setMaxFileSize(5000000); // Set max file size 5M
+        String videoName = new SimpleDateFormat(
+                "'TargetMaster_'yyyyMMddHHmmss'.mp4'").format(new Date());
+
+        videopath = "/sdcard/DCIM/Camera/" + videoName;
+
+        mediaRecorder.setOutputFile(videopath);
+//        mediaRecorder.setMaxDuration(60000); // Set max duration 60 sec.
+//        mediaRecorder.setMaxFileSize(5000000); // Set max file size 5M
 
         mediaRecorder.setPreviewDisplay(myCameraSurfaceView.getHolder().getSurface());
 

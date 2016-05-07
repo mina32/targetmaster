@@ -14,5 +14,6 @@
 
     <string name="title_activity_object_tracker">ObjectTrackerActivity</string>
     <string name="title_activity_video">VideoActivity</string>
+    <string name="title_activity_video2">VideoActivity2</string>
 
 </resources>

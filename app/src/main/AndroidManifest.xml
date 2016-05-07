@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.boofcv.objecttracking">
 
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -38,7 +37,10 @@
         </activity>
         <activity
             android:name=".VideoActivity"
-            android:label="@string/title_activity_video"></activity>
+            android:label="@string/title_activity_video" />
+        <activity
+            android:name=".VideoActivity2"
+            android:label="@string/title_activity_video2"></activity>
     </application>
 
 </manifest>
