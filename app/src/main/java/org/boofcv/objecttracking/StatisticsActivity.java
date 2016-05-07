@@ -1,6 +1,8 @@
 package org.boofcv.objecttracking;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.text.Editable;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import java.io.File;
 import java.lang.annotation.Target;
 
 public class StatisticsActivity extends Activity {
@@ -48,7 +51,8 @@ public class StatisticsActivity extends Activity {
                 TargetMasterData.DISTANCE_TEXT,
                 TargetMasterData.WIND_SPEED_TEXT,
                 TargetMasterData.WIND_DIRECTION_TEXT,
-                TargetMasterData.LOCATION_TEXT
+                TargetMasterData.LOCATION_TEXT,
+                TargetMasterData.VIDEO_PATH_TEXT
         };
 
         // the XML defined views which the data will be bound to
@@ -59,6 +63,7 @@ public class StatisticsActivity extends Activity {
                 R.id.speed,
                 R.id.direction,
                 R.id.location,
+                R.id.videopath
         };
 
         // create the adapter using the cursor pointing to the desired data
@@ -75,21 +80,26 @@ public class StatisticsActivity extends Activity {
         listView.setAdapter(dataAdapter);
 
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> listView, View view,
-//                                    int position, long id) {
-//                // Get the cursor, positioned to the corresponding row in the result set
-//                Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-//
-//                // Get the state's capital from this row in the database.
-//                String countryCode =
-//                        cursor.getString(cursor.getColumnIndexOrThrow(TargetMasterData.QN_TEXT));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> listView, View view,
+                                    int position, long id) {
+                // Get the cursor, positioned to the corresponding row in the result set
+                Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+
+                // Get the state's capital from this row in the database.
+                String VideoPath =
+                        cursor.getString(cursor.getColumnIndexOrThrow(TargetMasterData.VIDEO_PATH_TEXT));
 //                Toast.makeText(getApplicationContext(),
-//                        countryCode, Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
+//                        VideoPath, Toast.LENGTH_SHORT).show();
+                Intent viewIntent = new Intent(Intent.ACTION_VIEW);
+                File file = new File(VideoPath); // TODO Check if videopath is correct first
+                viewIntent.setDataAndType(Uri.fromFile(file), "video/*");
+                startActivity(Intent.createChooser(viewIntent, null));
+
+
+            }
+        });
 
         EditText myFilter = (EditText) findViewById(R.id.myFilter);
         myFilter.addTextChangedListener(new TextWatcher() {

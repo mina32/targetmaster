@@ -26,19 +26,16 @@
             <EditText android:id="@+id/input_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords"
                 android:hint="Time" />
 
             <EditText android:id="@+id/input_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
                 android:hint="Date" />
 
             <EditText android:id="@+id/input_distance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
                 android:hint="Distance"/>
 
         <EditText android:id="@+id/input_wind_speed"
@@ -50,13 +47,11 @@
         <EditText android:id="@+id/input_wind_direction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
             android:hint="Wind Direction" />
 
         <EditText android:id="@+id/input_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:hint="Location"/>
 
 

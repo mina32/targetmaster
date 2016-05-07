@@ -1,5 +1,6 @@
 package org.boofcv.objecttracking;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,7 +29,7 @@ public class TargetMasterData {
     public static final int DB_VERSION = 1;
 
     public static final String TABLE = "TargetMaster";
-    public static final String USERS_TABLE = "Users";
+//    public static final String USERS_TABLE = "Users";
 
 
     //public static final String C_ID = "_id";    // TODO Probably use this for users
@@ -38,6 +39,7 @@ public class TargetMasterData {
     public static final String WIND_SPEED_TEXT = "wind_speed";
     public static final String WIND_DIRECTION_TEXT = "wind_direction";
     public static final String LOCATION_TEXT = "location";
+    public static final String VIDEO_PATH_TEXT = "videopath";
 
 
 
@@ -90,6 +92,22 @@ public class TargetMasterData {
             Log.e(TAG, "getTestData >>"+ mSQLException.toString());
             throw mSQLException;
         }
+    }
+
+    public long SaveInfo(String time, String date, String distance,  String wind_speed,
+                         String wind_direction, String location, String video_path)
+    {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(TIME_TEXT, time);
+        initialValues.put(DATE_TEXT, date);
+        initialValues.put(DISTANCE_TEXT, distance);
+        initialValues.put(WIND_SPEED_TEXT, wind_speed);
+        initialValues.put(WIND_DIRECTION_TEXT, wind_direction);
+        initialValues.put(LOCATION_TEXT, location);
+        initialValues.put(VIDEO_PATH_TEXT, video_path);
+
+        return db.insert(TABLE, null, initialValues);
+
     }
 
     public Cursor fetchQuestions(String inputText) throws SQLException {

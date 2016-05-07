@@ -1,5 +1,6 @@
 package org.boofcv.objecttracking;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.boofcv.objecttracking.data.Channel;
+import org.boofcv.objecttracking.data.Wind;
+import org.boofcv.objecttracking.service.WeatherServiceCallback;
+import org.boofcv.objecttracking.service.YahooWeatherService;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -50,8 +57,11 @@ import georegression.struct.shapes.Quadrilateral_F64;
 // TODO Use Yahoo Weather API
 
 public class ObjectTrackerActivity extends VideoDisplayActivity
-        implements AdapterView.OnItemSelectedListener, View.OnTouchListener
+        implements AdapterView.OnItemSelectedListener, View.OnTouchListener, WeatherServiceCallback
 {
+    public static final String TAG = "ObjectTrackerActivity";
+
+
     int mode = 0;
 
     // size of the minimum square which the user can select
@@ -61,12 +71,14 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
     Point2D_I32 click1 = new Point2D_I32();
 
 
-    TextView up;
-    TextView down;
-    TextView left;
-    TextView right;
     Button weatherButton;
     Button saveButton;
+
+    private YahooWeatherService service;
+    private ProgressDialog dialog;
+
+    TextView windSpeedTextView;
+
 
     Quadrilateral_F64 location = new Quadrilateral_F64();
 
@@ -82,10 +94,15 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
 
         FrameLayout iv = getViewPreview();
         iv.setOnTouchListener(this);
-        up = (TextView) findViewById(R.id.up_indicator);
-        down = (TextView) findViewById(R.id.down_indicator);
-        left = (TextView) findViewById(R.id.left_indicator);
-        right = (TextView) findViewById(R.id.right_indicator);
+
+        windSpeedTextView = (TextView) findViewById(R.id.txtView_WindSpeed);
+
+        service = new YahooWeatherService(this);
+        dialog = new ProgressDialog(this);
+        dialog. setMessage("Loading...");
+        dialog.show();
+
+        service.refreshWeather("San Antonio, TX");
 
         weatherButton = (Button) findViewById(R.id.button_weather);
         weatherButton.setOnClickListener(new View.OnClickListener() {
@@ -105,10 +122,6 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
             }
         });
 
-        up.setBackgroundColor(Color.GREEN);
-        down.setBackgroundColor(Color.GREEN);
-        left.setBackgroundColor(Color.GREEN);
-        right.setBackgroundColor(Color.GREEN);
 
 
        // spinnerView = (Spinner)controls.findViewById(R.id.spinner_algs);
@@ -185,6 +198,30 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
 
     public void resetPressed( View view ) {
         mode = 0;
+    }
+
+    @Override
+    public void ServiceSuccess(Channel channel) {
+
+        dialog.hide();
+
+        Wind wind = channel.getWind();
+
+//        locationTextView.setText("Location: " + service.getLocation());
+        windSpeedTextView.setText("Wind speed: " + wind.getSpeed() + " " + channel.getUnits().getSpeed());
+
+        Log.d(TAG, "Location: " + service.getLocation());
+        Log.d(TAG, "Wind speed: " + wind.getSpeed() + " " + channel.getUnits().getSpeed());
+        Log.d(TAG, "Wind direction: " + wind.getDirection());
+
+    }
+
+    @Override
+    public void ServiceFailure(Exception exception) {
+
+        dialog.hide();
+        Toast.makeText(this,exception.getMessage(),Toast.LENGTH_LONG).show();
+
     }
 
     protected class TrackingProcessing<T extends ImageBase> extends VideoImageProcessing<MultiSpectral<ImageUInt8>>
