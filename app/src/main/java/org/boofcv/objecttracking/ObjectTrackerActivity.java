@@ -67,7 +67,8 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
     public static final String TAG = "ObjectTrackerActivity";
 
 
-    private  String videopath;
+    private  String videopath = "none";
+    private String windSpeed = "none";
     MediaPlayer mediaPlayer;
 
     int mode = 0;
@@ -105,14 +106,6 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
 
         FrameLayout iv = getViewPreview();
         iv.setOnTouchListener(this);
-//        up = (TextView) findViewById(R.id.up_indicator);
-//        down = (TextView) findViewById(R.id.down_indicator);
-//        left = (TextView) findViewById(R.id.left_indicator);
-//        right = (TextView) findViewById(R.id.right_indicator);
-//        up.setBackgroundColor(Color.GREEN);
-//        down.setBackgroundColor(Color.GREEN);
-//        left.setBackgroundColor(Color.GREEN);
-//        right.setBackgroundColor(Color.GREEN);
 
         record = (Button) findViewById(R.id.record);
         record.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +157,8 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ObjectTrackerActivity.this, SaveActivity.class);
+                intent.putExtra("videoPath", videopath);
+                intent.putExtra("windSpeed",windSpeed);
                 startActivity(intent);
             }
         });
@@ -253,8 +248,10 @@ public class ObjectTrackerActivity extends VideoDisplayActivity
 
         Wind wind = channel.getWind();
 
+        windSpeed = wind.getSpeed() + " " + channel.getUnits().getSpeed();
+
 //        locationTextView.setText("Location: " + service.getLocation());
-        windSpeedTextView.setText("Wind speed: " + wind.getSpeed() + " " + channel.getUnits().getSpeed());
+        windSpeedTextView.setText("Wind speed: " + windSpeed );
 
         Log.d(TAG, "Location: " + service.getLocation());
         Log.d(TAG, "Wind speed: " + wind.getSpeed() + " " + channel.getUnits().getSpeed());

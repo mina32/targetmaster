@@ -7,6 +7,7 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -140,7 +141,9 @@ public class VideoActivity extends Activity{
         String videoName = new SimpleDateFormat(
                 "'TargetMaster_'yyyyMMddHHmmss'.mp4'").format(new Date());
 
-        videopath = "/sdcard/DCIM/Camera/" + videoName;
+//        videopath = "/sdcard/DCIM/Camera/" + videoName;
+        videopath = Environment.getExternalStorageDirectory().getPath() + "/"+ videoName;
+
 
         mediaRecorder.setOutputFile(videopath);
 //        mediaRecorder.setMaxDuration(60000); // Set max duration 60 sec.

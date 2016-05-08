@@ -54,6 +54,14 @@
             android:layout_height="wrap_content"
             android:hint="Location"/>
 
+        <EditText
+            android:id="@+id/input_video_path"
+            android:hint="Video Path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"
+            android:editable="false"/>
+
 
         <!-- Signup Button -->
         <Button

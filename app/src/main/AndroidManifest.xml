@@ -12,6 +12,7 @@
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <supports-screens
@@ -38,13 +39,25 @@
         </activity>
         <activity
             android:name=".VideoActivity"
-            android:label="@string/title_activity_video" />
+            android:label="@string/title_activity_video"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".SaveActivity"
-            android:label="@string/title_activity_save" />
+            android:label="@string/title_activity_save"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".StatisticsActivity"
-            android:label="@string/title_activity_statistics"></activity>
+            android:label="@string/title_activity_statistics"
+            />
+
+        <receiver
+            android:name=".ConnectivityReceiver"
+            android:enabled="true"
+            android:exported="true">
+             <intent-filter>
+             <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+             </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

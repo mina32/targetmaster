@@ -23,6 +23,7 @@ public class SaveActivity extends Activity {
     private EditText txtWindSpeed;
     private EditText txtWindSDirection;
     private EditText txtLocation;
+    private EditText txtVideoInput;
 
     Button saveInfoButton;
     Button statsButton;
@@ -36,8 +37,9 @@ public class SaveActivity extends Activity {
         setContentView(R.layout.activity_save);
         Log.d(TAG, "onCreate");
 
-        targetMasterData = TargetMasterData.getInstance(getApplication());
+        Intent intent = getIntent();
 
+        targetMasterData = TargetMasterData.getInstance(getApplication());
 
         txtTime = (EditText) findViewById(R.id.input_time);
         txtDate = (EditText) findViewById(R.id.input_date);
@@ -45,6 +47,7 @@ public class SaveActivity extends Activity {
         txtWindSpeed = (EditText) findViewById(R.id.input_wind_speed);
         txtWindSDirection = (EditText) findViewById(R.id.input_wind_direction);
         txtLocation = (EditText) findViewById(R.id.input_location);
+        txtVideoInput = (EditText) findViewById(R.id.input_video_path);
 
 
         String date = new SimpleDateFormat(
@@ -58,7 +61,8 @@ public class SaveActivity extends Activity {
         txtDistance.setText("50 yds");
         txtLocation.setText("My home");
         txtWindSDirection.setText("10 degrees");
-        txtWindSpeed.setText("10 mph");
+        txtWindSpeed.setText(intent.getStringExtra("windSpeed"));
+        txtVideoInput.setText(intent.getStringExtra("videoPath"));
 
         statsButton = (Button) findViewById(R.id.btn_stats);
         statsButton.setOnClickListener(new View.OnClickListener() {
@@ -81,10 +85,11 @@ public class SaveActivity extends Activity {
                 String wind_speed = txtWindSpeed.getText().toString();
                 String wind_direction = txtWindSDirection.getText().toString();
                 String location = txtLocation.getText().toString();
+                String video_path = txtVideoInput.getText().toString();
 
 
                 targetMasterData.SaveInfo(time, date, distance, wind_speed,
-                        wind_direction, location, "/sdcard/DCIM/Camera/20160506_124505.mp4");
+                        wind_direction, location, video_path);
                 Toast.makeText(SaveActivity.this, "Successful Save", Toast.LENGTH_SHORT).show();
                 Log.d(TAG , "Info saved ");
 
