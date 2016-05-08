@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ObjectTracking</string>
+    <string name="app_name">Target Master</string>
 
     <string-array name="tracking_objects">
         <item>Circulant</item>
