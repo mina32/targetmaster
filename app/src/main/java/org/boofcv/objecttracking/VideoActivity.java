@@ -144,7 +144,6 @@ public class VideoActivity extends Activity{
 //        videopath = "/sdcard/DCIM/Camera/" + videoName;
         videopath = Environment.getExternalStorageDirectory().getPath() + "/"+ videoName;
 
-
         mediaRecorder.setOutputFile(videopath);
 //        mediaRecorder.setMaxDuration(60000); // Set max duration 60 sec.
 //        mediaRecorder.setMaxFileSize(5000000); // Set max file size 5M
